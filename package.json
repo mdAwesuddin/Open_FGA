@@ -1,0 +1,22 @@
+{
+  "name": "my-rbac-app",
+  "version": "1.0.0",
+  "main": "src/app.js",
+  "type": "module",
+  "scripts": {
+    "dev": "nodemon src/app.js",
+    "start": "node src/app.js"
+  },
+  "dependencies": {
+    "express": "^4.18.2",
+    "jsonwebtoken": "^9.0.2",
+    "@openfga/sdk": "^0.3.0",
+    "dotenv": "^16.3.1",
+    "body-parser": "^1.20.2",
+    "cors": "^2.8.5",
+    "bcryptjs": "^2.4.3"
+  },
+  "devDependencies": {
+    "nodemon": "^3.0.2"
+  }
+}
