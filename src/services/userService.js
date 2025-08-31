@@ -9,6 +9,18 @@ const users = [
   { id: "lion",  animal: "lion",  passwordHash: bcrypt.hashSync("lion123", 10) }
 ];
 
+export async function registerUser(animal, password) {
+  const existing = users.find((u) => u.animal === animal);
+  if (existing) {
+    throw new Error("User already exists");
+  }
+
+  const hashedPassword = await bcrypt.hash(password, 10);
+  const user = { id: animal, animal, passwordHash: hashedPassword }; // fixed
+  users.push(user);
+  return user;
+}
+
 export async function loginUser(animal, password) {
   const user = users.find(u => u.animal === animal);
   if (!user) throw new Error("Invalid credentials");

@@ -1,7 +1,33 @@
 import express from "express";
-import { loginUser } from "../services/userService.js";
+import { loginUser, registerUser } from "../services/userService.js";
+import { assignRole } from "../services/fgaService.js";
 
 const router = express.Router();
+
+// POST /auth/signup
+router.post("/signup", async (req, res, next) => {
+  try {
+    const { animal, password, role } = req.body;
+
+    if (!animal || !password || !role) {
+      return res.status(400).json({ error: "Animal, password and role required" });
+    }
+
+    const user = await registerUser(animal, password);
+    const result = await assignRole(user.id, role);
+
+    return res.status(201).json({
+      message: result.message,
+      user: { animal: user.animal, role },
+    });
+  } catch (err) {
+    if (err.message === "User already exists") {
+      return res.status(400).json({ error: "User already exists" });
+    }
+    next(err);
+  }
+});
+
 
 // POST /auth/login
 router.post("/login", async (req, res, next) => {
